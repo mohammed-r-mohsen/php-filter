@@ -17,15 +17,15 @@
             echo "Connection failed: " . $e->getMessage();
           } 
 
-          
-        if(isset($_POST['filter'])){
-            $GENDER = $_POST['gender'];
-            $LOCATION = $_POST['location_list'];
-            $sql = "SELECT * FROM `users` WHERE address = '$LOCATION' or gender = '$GENDER'";
-            $result = $conn->query($sql);
-            while($row = $result->fetch(PDO::FETCH_ASSOC))
-                print '<br>user id :'.$row['User_id'] .'username'. $row['username'] . 'full name' . $row['fullname'] . 'email ' . $row['email'] . ' address ' . $row['address']; 
-            }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+            if(isset($_POST['filter'])){
+                $GENDER = $_POST['gender'];
+                $LOCATION = $_POST['location_list'];
+                $sql = "SELECT * FROM `users` WHERE address = '$LOCATION' or gender = '$GENDER'";
+                $result = $conn->query($sql);
+                while($row = $result->fetch(PDO::FETCH_ASSOC))
+                    print '<b>user id :'.$row['User_id'] .'username'. $row['username'] . 'full name' . $row['fullname'] . 'email ' . $row['email'] . ' address ' . $row['address']; 
+                }
         
     ?>
         <div id="filter">
@@ -34,7 +34,7 @@
                     <label for="female"> female</label>
                     <input type="radio" name="gender" id="female" value="female">
                     <label for="male">male</label>
-                    <input type="radio" name="gender" id="male" value="male">
+                    <input type="radio" name="gender" id="male" value="male" checked>
                     <select id="location" name="location_list">
                         <?php
                             $sql = "SELECT `address`, `gender` FROM `users` WHERE 1";
